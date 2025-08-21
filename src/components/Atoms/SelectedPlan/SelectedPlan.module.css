@@ -8,7 +8,7 @@
     font-weight: 600;
 }
 
-.container button{
+.container .change_button{
     display: none;
 }
 
@@ -23,18 +23,19 @@
     color: #022959;
 }
 
-.main_plan button{
+.main_plan .change_button{
     color: #9699AA;
     font-size: 1.4rem;
-    display: none;
+    display: block;
     margin-top: 1.2rem;
     text-decoration: none;
     text-transform: capitalize;
     border: none;
     background: transparent;
+    cursor: pointer;
 }
 
-.main_plan button::after{
+.main_plan .change_button::after{
     content: "";
     width:4.5rem;
     display: block;
@@ -48,16 +49,22 @@
     margin-bottom: 2.5rem;
 }
 
-.main_plan button{
-
-    display: block;
-    
-}
-
-.main_plan button:hover{
+.main_plan .change_button:hover{
     color:#483EFF;
 }
 
-.main_plan button:hover::after{
+.main_plan .change_button:hover::after{
     background-color: #483EFF;
+}
+
+/* Addon variant styles */
+.addon {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 1.5rem;
+}
+
+.addon .plan h5, .addon .plan_cost {
+    font-size: 1.4rem;
+    font-weight: 500;
 }

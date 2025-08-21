@@ -3,12 +3,11 @@ import styles from './StageNumber.module.css'
 type StageNumberProps = {
     stage: number;
     current: boolean;
-    onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 
-function StageNumber({stage, onClick, current}:StageNumberProps) {
+function StageNumber({stage, current}: Readonly<StageNumberProps>) {
   return (
-      <div className={`${styles.container} ${current && styles.active}`} onClick={onClick}>
+      <div className={`${styles.container} ${current && styles.active}`}>
           <p>{ stage }</p>
       </div>
   )

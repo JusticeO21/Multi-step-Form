@@ -1,17 +1,99 @@
-.buttons{
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    left: -2rem;
-    right: -2rem;
-    background: #fff;
-    padding: 2rem;
-    top: 100%;
+/* Container styles */
+.container {
+    position: relative;
+    height: 100%;
+    overflow-y: scroll;
+
+    /* Hide scrollbar for WebKit browsers (Chrome, Safari, Edge) */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
 }
 
+/* Hide scrollbar for WebKit browsers */
+.container::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
 
-@media (min-width:1000px){
-    .buttons{
+.errorContainer {
+    background-color: #fee;
+    border: 1px solid #fcc;
+    border-radius: 0.8rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.errorMessage {
+    color: #c33;
+    font-size: 1.4rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.addOnsFieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: block;
+}
+
+.legend {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #022959;
+    margin-bottom: 1.5rem;
+    padding: 0;
+}
+
+.addOnItem {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.popularBadge {
+    position: absolute;
+    top: 0.5rem;
+    right: 1.5rem;
+    background-color: #483eff;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Selection summary */
+.selectionSummary {
+    background-color: #f8f9ff;
+    border: 1px solid #d6d9e6;
+    border-radius: 0.8rem;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.selectionSummary p {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #483eff;
+    font-weight: 500;
+}
+
+/* Buttons */
+.addonsButtonGroup {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 3rem;
+}
+
+@media (min-width: 1000px) {
+    .buttons {
         position: absolute;
         background: unset;
         padding: 0;
@@ -19,5 +101,54 @@
         right: 10rem;
         top: unset;
         bottom: 3px;
+        box-shadow: none;
+    }
+
+    .container {
+        padding-bottom: 8rem;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .legend {
+        font-size: 1.4rem;
+    }
+
+    .popularBadge {
+        font-size: 1rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .selectionSummary p {
+        font-size: 1.3rem;
+    }
+}
+
+/* Animation for smooth transitions */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.errorContainer,
+.selectionSummary {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .popularBadge {
+        border: 2px solid #000;
+    }
+
+    .errorContainer {
+        border-width: 2px;
     }
 }

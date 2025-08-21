@@ -1,91 +1,109 @@
-import styles from './PlanForm.module.css';
-import Header from '../../Atoms/Header/Header';
-import Card from '../../Molecules/Card/Card';
-import Button from '../../Atoms/Button/Button';
-import useCustomNavigate from '../../../Hooks/UseNavigate';
-import ThemeSwitch from '../../Molecules/ThemeSwitch/ThemeSwitch';
+import styles from "./PlanForm.module.css";
+import Header from "../../Atoms/Header/Header";
+import Card from "../../Molecules/Card/Card";
+import Button from "../../Atoms/Button/Button";
+import useCustomNavigate from "../../../Hooks/UseNavigate";
+import ThemeSwitch from "../../Molecules/ThemeSwitch/ThemeSwitch";
 import { useAppDispatch, useAppSelector } from "../../../Hooks/useRedux";
 import { goToNextStep, goBack } from "../../../Redux/sidebarSlice";
-import { updatePlan, updatePlanDuration, reset as resetPlan } from '../../../Redux/PlanAndAddOnSlice';
-import Reset from '../../Atoms/Reset/Reset';
+import {
+  updatePlan,
+  updatePlanDuration,
+  reset as resetPlan,
+} from "../../../Redux/PlanAndAddOnSlice";
+import Reset from "../../Atoms/Reset/Reset";
+
+// Plan configuration constants
+const PLANS_CONFIG = [
+  {
+    name: "Arcade",
+    iconSrc: "/Images/icon-arcade.svg",
+    monthlyPrice: 15,
+    yearlyPrice: 150,
+  },
+  {
+    name: "Advanced",
+    iconSrc: "/Images/icon-advanced.svg",
+    monthlyPrice: 12,
+    yearlyPrice: 120,
+  },
+  {
+    name: "Pro",
+    iconSrc: "/Images/icon-pro.svg",
+    monthlyPrice: 9,
+    yearlyPrice: 90,
+  },
+] as const;
 
 function PlanForm() {
   const { goToSelectedStep } = useCustomNavigate();
-  const selectedPlan = (useAppSelector(state=>state.planAndAddOns.plan?.["name"]) || "");
-  const {isAYearPlan} = useAppSelector(state => state.planAndAddOns)
+  const { plan, isAYearPlan } = useAppSelector((state) => state.planAndAddOns);
+  const selectedPlan = plan?.name || "";
   const dispatch = useAppDispatch();
 
-  function handleCardClick(plan: string, cost:number) {
+  function handleCardClick(plan: string, cost: number) {
     const storedplan = {
-      name: `${plan}`,
-      cost: cost
-    }
-    dispatch(updatePlan(storedplan))
+      name: plan,
+      cost: cost,
+    };
+    dispatch(updatePlan(storedplan));
   }
 
   function handleReset() {
-        dispatch(resetPlan());
+    dispatch(resetPlan());
   }
 
   function handleToggleTheme() {
-    dispatch(updatePlanDuration())
+    dispatch(updatePlanDuration());
     dispatch(resetPlan());
-  };
-
-  function handleNextButtonClick(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-      e.preventDefault();
-      dispatch(goToNextStep());
-      goToSelectedStep();
   }
 
-    function handleBackButtonClick(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-      e.preventDefault();
-      dispatch(goBack());
-      goToSelectedStep();
+  function handleNextButtonClick(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault();
+    dispatch(goToNextStep());
+    goToSelectedStep();
   }
-  
+
+  function handleBackButtonClick(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) {
+    e.preventDefault();
+    dispatch(goBack());
+    goToSelectedStep();
+  }
+
   return (
     <>
-      
-      <Reset onClick={handleReset}/>
+      <Reset onClick={handleReset} />
       <Header
         stageHeader="Select your plan"
         explainHeader="You have the option of monthly or yearly billing."
       />
       <div className={styles.container}>
-        <Card
-          iconSrc="/Images/icon-arcade.svg"
-          planName="Arcade"
-          plan={`$${isAYearPlan ? 150 : 15}/${isAYearPlan ? "yr" : "mo"}`}
-          selected={selectedPlan === "Arcade" ? "selected" : ""}
-          isAYearPlan={isAYearPlan ? true : false}
-          onClick={() => handleCardClick("Arcade", isAYearPlan ? 150 : 15)}
-        />
+        {PLANS_CONFIG.map((planConfig) => {
+          const price = isAYearPlan
+            ? planConfig.yearlyPrice
+            : planConfig.monthlyPrice;
+          const period = isAYearPlan ? "yr" : "mo";
 
-        <Card
-          iconSrc="/Images/icon-advanced.svg"
-          planName="Advanced"
-          plan={`$${isAYearPlan ? 120 : 12}/${isAYearPlan ? "yr" : "mo"}`}
-          selected={selectedPlan === "Advanced" ? "selected" : ""}
-          isAYearPlan={isAYearPlan ? true : false}
-          onClick={() => handleCardClick("Advanced", isAYearPlan ? 120 : 12)}
-        />
-
-        <Card
-          iconSrc="/Images/icon-pro.svg"
-          planName="Pro"
-          plan={`$${isAYearPlan ? 90 : 9}/${isAYearPlan ? "yr" : "mo"}`}
-          selected={selectedPlan === "Pro" ? "selected" : ""}
-          isAYearPlan={isAYearPlan ? true : false}
-          onClick={() => handleCardClick("Pro", isAYearPlan ? 90 : 9)}
-        />
+          return (
+            <Card
+              key={planConfig.name}
+              iconSrc={planConfig.iconSrc}
+              planName={planConfig.name}
+              plan={`$${price}/${period}`}
+              selected={selectedPlan === planConfig.name ? "selected" : ""}
+              isAYearPlan={isAYearPlan}
+              onClick={() => handleCardClick(planConfig.name, price)}
+            />
+          );
+        })}
       </div>
-      <ThemeSwitch theme={isAYearPlan} toggleSwitch={handleToggleTheme} />
+      <ThemeSwitch isYearly={isAYearPlan} onToggle={handleToggleTheme} />
       <span className={styles.buttons}>
-        <Button
-          text="go back"
-          onClick={(e) => handleBackButtonClick(e)}
-        />
+        <Button text="go back" onClick={(e) => handleBackButtonClick(e)} />
 
         <Button
           positionButton="right"
@@ -97,4 +115,4 @@ function PlanForm() {
   );
 }
 
-export default PlanForm
+export default PlanForm;

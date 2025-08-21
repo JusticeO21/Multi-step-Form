@@ -6,7 +6,7 @@ type StageLabelProps = {
     label: string;
 }
 
-function StageLabel({ stage, label }: StageLabelProps) {
+function StageLabel({ stage, label }: Readonly<StageLabelProps>) {
   return (
       <div className={styles.container}>
           <p>step {stage}</p>

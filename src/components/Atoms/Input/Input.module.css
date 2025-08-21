@@ -24,9 +24,10 @@
     font-size: 1.8rem;
     border-radius: 0.8rem;
     border:1px solid #D6D9E6;
-    font-weight:600;
+    font-weight:500;
     width:100%;
     outline: none;
+    color: rgb(41, 40, 40);
 }
 
 .input_field:focus{
@@ -110,7 +111,7 @@ input:checked .checkbox{
 
 .error_message{
     color: #EE374A;
-    font-size: 1.5rem;
+    font-size: 12px;
     position: absolute;
     right: 0;
     top: 2rem;

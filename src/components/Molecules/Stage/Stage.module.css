@@ -2,11 +2,143 @@
     display: flex;
     align-items: center;
     column-gap: 1.2rem;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: default;
+    animation: slideIn 0.3s ease-out;
 }
 
+/* Clickable state */
+.clickable {
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+    border-radius: 0.4rem;
+    padding: 0.5rem;
+    margin: -0.5rem;
+}
+
+.clickable:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+.clickable:active {
+    transform: translateY(0);
+}
+
+.clickable:focus {
+    outline: 2px solid #483EFF;
+    outline-offset: 2px;
+}
+
+/* Disabled state */
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.disabled:hover {
+    opacity: 0.5;
+    transform: none;
+}
+
+.current {
+    /* Enhanced styling for current step */
+    position: relative;
+    animation: slideIn 0.3s ease-out, pulse 2s ease-in-out infinite;
+}
+
+.current::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2rem;
+    height: 2px;
+    background-color: #483EFF;
+    border-radius: 1px;
+}
+
+.completed {
+    /* Styling for completed steps */
+    opacity: 0.9;
+}
+
+.completed .container {
+    /* Add subtle indication for completed steps */
+    position: relative;
+}
+
+/* Variant styles */
+.compact {
+    column-gap: 0.8rem;
+}
+
+.compact .clickable {
+    padding: 0.3rem;
+    margin: -0.3rem;
+}
 
 @media (min-width:1000px){
     .container{
         flex: 1;
+    }
+
+    .clickable {
+        padding: 0.8rem;
+        margin: -0.8rem;
+        border-radius: 0.6rem;
+    }
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .clickable:focus {
+        outline: 3px solid;
+        outline-offset: 3px;
+    }
+
+    .current::after {
+        height: 3px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .container,
+    .current {
+        animation: none;
+    }
+
+    .clickable {
+        transition: none;
     }
 }

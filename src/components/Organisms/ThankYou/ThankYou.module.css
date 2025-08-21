@@ -6,15 +6,149 @@
     width: 100%;
     text-align: center;
     padding: 0 5rem;
-    /* border:1px solid red; */
 }
 
-.thank_you h2{
+.thank_you {
+    max-width: 500px;
+    width: 100%;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.thank_you h1{
     margin: 2rem 0;
     font-size: 3rem;
+    color: #022959;
 }
 
-.thank_you P{
+.message {
     font-size: 1.6rem;
     color: #9699AA;
+    line-height: 1.6;
+    margin-bottom: 2rem;
 }
+
+.email_link {
+    color: #483EFF;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.email_link:hover {
+    color: #022959;
+    text-decoration: underline;
+}
+
+.redirect_info {
+    margin-top: 3rem;
+    padding: 2rem;
+    background-color: #F8F9FF;
+    border-radius: 0.8rem;
+    border: 1px solid #D6D9E6;
+}
+
+.countdown_text {
+    font-size: 1.4rem;
+    color: #9699AA;
+    margin-bottom: 1.5rem;
+}
+
+.countdown_number {
+    font-weight: 700;
+    color: #483EFF;
+    font-size: 1.6rem;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.cancel_button {
+    background: none;
+    border: 1px solid #9699AA;
+    color: #9699AA;
+    padding: 0.8rem 1.6rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: all 0.2s ease;
+}
+
+.cancel_button:hover {
+    background-color: #9699AA;
+    color: white;
+}
+
+.manual_navigation {
+    margin-top: 3rem;
+}
+
+.home_button {
+    background-color: #483EFF;
+    color: white;
+    border: none;
+    padding: 1.2rem 2.4rem;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.home_button:hover {
+    background-color: #022959;
+}
+
+.home_button:focus {
+    outline: 2px solid #483EFF;
+    outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 2rem;
+    }
+
+    .thank_you h1 {
+        font-size: 2.4rem;
+    }
+
+    .message {
+        font-size: 1.4rem;
+    }
+
+    .redirect_info {
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .countdown_text {
+        font-size: 1.3rem;
+    }
+
+    .home_button {
+        padding: 1rem 2rem;
+        font-size: 1.4rem;
+    }
+}
+
+/* Animation for countdown */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+
+
+/* Focus styles for better accessibility */
+.cancel_button:focus {
+    outline: 2px solid #9699AA;
+    outline-offset: 2px;
+}
+
+/* Loading state animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+

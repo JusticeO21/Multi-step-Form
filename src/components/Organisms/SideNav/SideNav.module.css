@@ -12,9 +12,35 @@
 
 nav{
     display: flex;
-    row-gap: 3rem; 
+    row-gap: 3rem;
     align-items: center;
     justify-content: space-around;
+}
+
+.stage_button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+
+.stage_button:hover {
+    opacity: 0.8;
+}
+
+.stage_button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.stage_button:focus {
+    outline: 2px solid #483EFF;
+    outline-offset: 2px;
+    border-radius: 4px;
 }
 
 
@@ -32,5 +58,10 @@ nav{
         justify-content: unset;
         row-gap: 3.5rem;
         align-items: unset;
+    }
+
+    .stage_button {
+        width: 100%;
+        justify-content: flex-start;
     }
 }

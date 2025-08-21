@@ -1,27 +1,65 @@
 import styles from "./SelectedPlan.module.css";
-import useCustomNavigate from "../../../Hooks/UseNavigate";
-import globalState from "../../../AppState/GlobalState";
+
+type PlanVariant = "main_plan" | "addon";
 
 type SelectedPlanProps = {
   planCost: string;
   plan: string;
-  main_plan?: string;
-}
+  variant?: PlanVariant;
+  showChangeButton?: boolean;
+  onChangeClick?: () => void;
+  changeButtonText?: string;
+  className?: string;
+  "aria-label"?: string;
+};
 
-function SelectedPlan({ planCost, plan, main_plan }: SelectedPlanProps) {
-  const { goTo } = useCustomNavigate();
+function SelectedPlan({
+  planCost,
+  plan,
+  variant,
+  showChangeButton = false,
+  onChangeClick,
+  changeButtonText = "change",
+  className = "",
+  "aria-label": ariaLabel,
+}: Readonly<SelectedPlanProps>) {
+  const containerClasses = [
+    styles.container,
+    variant ? styles[variant] : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const handleChangeClick = () => {
+    if (onChangeClick) {
+      onChangeClick();
+    }
+  };
+
   return (
-    <article className={`${styles.container} ${styles[`${main_plan}`]}`}>
-      <span className={styles.plan}>
+    <article
+      className={containerClasses}
+      aria-label={ariaLabel || `Selected plan: ${plan}, Cost: ${planCost}`}
+    >
+      <div className={styles.plan}>
         <h5>{plan}</h5>
-        <button onClick={() => {
-          goTo("/register/select-plan");
-          globalState.setState("stage", 1)
-        }}>change</button>
-      </span>
-      <p className={styles.plan_cost}>{planCost}</p>
+        {showChangeButton && (
+          <button
+            type="button"
+            onClick={handleChangeClick}
+            aria-label={`Change ${plan} plan`}
+            className={styles.change_button}
+          >
+            {changeButtonText}
+          </button>
+        )}
+      </div>
+      <p className={styles.plan_cost} aria-label={`Cost: ${planCost}`}>
+        {planCost}
+      </p>
     </article>
   );
 }
 
-export default SelectedPlan
+export default SelectedPlan;

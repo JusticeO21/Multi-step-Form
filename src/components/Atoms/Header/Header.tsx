@@ -5,7 +5,7 @@ type HeaderProps = {
     explainHeader: string;
 }
  
-function Header({stageHeader, explainHeader}:HeaderProps) {
+function Header({stageHeader, explainHeader}:Readonly<HeaderProps>) {
   return (
       <header className={styles.container}>
           <h1>{stageHeader }</h1>

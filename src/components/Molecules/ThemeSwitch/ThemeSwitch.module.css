@@ -1,32 +1,90 @@
-.swithcContainer{
+.switchContainer {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 1.5rem;
   padding: 1.7rem;
   width: 100%;
   border-radius: 1.8rem;
   background: #f8f9ff;
+  border: none;
+  margin: 0;
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease-out;
+  -webkit-animation: slideIn 0.3s ease-out;
 }
 
-.swithcContainer p{
+.label {
   font-size: 1.5rem;
-  transition: color 0.8s;
   font-weight: 500;
   text-transform: capitalize;
+  transition: color 0.3s ease;
+  color: #9699aa;
+  cursor: pointer;
+  user-select: none;
+}
+
+.label.active {
+  color: #022959;
+  font-weight: 600;
+}
+
+.small {
+  padding: 1.2rem;
+  gap: 1rem;
+}
+
+.small .label {
+  font-size: 1.3rem;
+}
+
+
+.large {
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.large .label {
+  font-size: 1.7rem;
+}
+
+.compact {
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.disabled .label {
+  cursor: not-allowed;
 }
 
 .switch {
   position: relative;
   display: inline-block;
-  width: 45px;
-  height: 26px;
+  width: 4.5rem;
+  height: 2.6rem;
+  cursor: pointer;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
+  position: absolute;
+}
+
+.switch input:focus + .slider {
+  outline: 2px solid #483eff;
+  outline-offset: 2px;
+}
+
+.switch input:disabled + .slider {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .slider {
@@ -37,34 +95,124 @@
   right: 0;
   bottom: 0;
   background-color: #022959;
-  -webkit-transition: .4s;
-  transition: .4s;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 19px;
-  width: 19px;
-  left: 4px;
-  bottom: 3.5px;
-  background-color: #FFFFFF;
-  -webkit-transition: .4s;
-  transition: .4s;
+  height: 1.9rem;
+  width: 1.9rem;
+  left: 0.4rem;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sliderText {
+  position: absolute;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  z-index: 1;
+  transition: all 0.3s ease;
+  pointer-events: none;
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(19px);
-  -ms-transform: translateX(19px);
-  transform: translateX(19px);
+  transform: translateX(1.9rem);
+}
+
+input:checked + .slider {
+  background-color: #483eff;
 }
 
 .slider.round {
-  border-radius: 34px;
+  border-radius: 3.4rem;
 }
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.switch:hover .slider {
+  box-shadow: 0 0 0 2px rgba(72, 62, 255, 0.2);
+}
+
+.switch:hover .slider:before {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.switch:active .slider:before {
+  transform: scale(0.95);
+}
+
+input:checked.switch:active .slider:before {
+  transform: translateX(1.9rem) scale(0.95);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.switch input:focus-visible + .slider {
+  outline: 2px solid #483eff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .switchContainer {
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .label {
+    font-size: 1.4rem;
+  }
+
+  .switch {
+    width: 4rem;
+    height: 2.4rem;
+  }
+
+  .slider:before {
+    height: 1.7rem;
+    width: 1.7rem;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(1.6rem);
+  }
+}
+
+@media (prefers-contrast: high) {
+  .slider {
+    border: 2px solid #000;
+  }
+
+  .slider:before {
+    border: 1px solid #000;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .slider,
+  .slider:before,
+  .sliderText,
+  .label {
+    transition: none;
+  }
 }
 
 

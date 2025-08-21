@@ -4,7 +4,7 @@ type FormPreviewProps = {
     children:React.ReactNode
 }
 
-function FormPreview({children} : FormPreviewProps) {
+function FormPreview({children} : Readonly<FormPreviewProps>) {
   return (
       <form>
         {

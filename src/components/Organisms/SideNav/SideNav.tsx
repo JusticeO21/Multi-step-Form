@@ -3,37 +3,95 @@ import Stage from "../../Molecules/Stage/Stage";
 import useCustomNavigate from "../../../Hooks/UseNavigate";
 import { useAppSelector, useAppDispatch } from "../../../Hooks/useRedux";
 import { updateStep } from "../../../Redux/sidebarSlice";
+import { useCallback } from "react";
+import useMediaQuery from "../../../Hooks/useMediaQuery";
 
-interface Stage {
+interface StageData {
   stage: number;
   label: string;
   stageUrl: string;
 }
 
 type SideNavProps = {
-  data: Array<Stage>
-}
+  stages: Array<StageData>;
+  className?: string;
+  "aria-label"?: string;
+  enableKeyboardNavigation?: boolean;
+  desktopBreakpoint?: number;
+};
 
-function SideNav({ data }: SideNavProps) {
-  const {goTo}  = useCustomNavigate()
-  const step = useAppSelector((state) => state.sidebar.step);
+function SideNav({
+  stages,
+  className = "",
+  "aria-label": ariaLabel = "Navigation steps",
+  enableKeyboardNavigation = true,
+  desktopBreakpoint = 1000,
+}: Readonly<SideNavProps>) {
+  const { goTo } = useCustomNavigate();
+  const currentStep = useAppSelector((state) => state.sidebar.step);
   const dispatch = useAppDispatch();
 
-  function listenToStageClick(stageUrl: string, currentStage: number): void {
-    if (window.innerWidth < 1000) return;
-    goTo(stageUrl);
-    dispatch(updateStep({ step: currentStage }));
-}
+  // Check if we're on desktop
+  const isDesktop = useMediaQuery(`(min-width: ${desktopBreakpoint}px)`);
+
+  const handleStageClick = useCallback(
+    (stageUrl: string, targetStep: number) => {
+      // Only allow navigation on desktop or if explicitly enabled
+      if (!isDesktop) return;
+
+      // Navigate to the selected stage
+      goTo(`/register/${stageUrl}`);
+      dispatch(updateStep({ step: targetStep }));
+    },
+    [isDesktop, goTo, dispatch]
+  );
+
+  // Build container classes
+  const containerClasses = [styles.container, className]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <div className={styles.container}>
-      <nav>
-        {data.map((data,index) => {
-          return <Stage stage={data.stage} label={data.label} key={`${data.label}_${index}`} current={step === (index + 1) && true} onClick={()=>{listenToStageClick(data.stageUrl, index + 1)}}/>;
+    <div className={containerClasses}>
+      <nav role="navigation" aria-label={ariaLabel} aria-current="step">
+        {stages.map((stageData, index) => {
+          const stepNumber = index + 1;
+          const isCurrent = currentStep === stepNumber;
+          const isClickable = isDesktop;
+
+          if (isClickable) {
+            return (
+              <Stage
+                key={`stage-${stageData.stage}-${index}`}
+                stage={stageData.stage}
+                label={stageData.label}
+                current={isCurrent}
+                clickable={true}
+                onClick={() => handleStageClick(stageData.stageUrl, stepNumber)}
+                disabled={!enableKeyboardNavigation}
+                aria-label={`Step ${stepNumber}: ${stageData.label}${
+                  isCurrent ? " (current)" : ""
+                }`}
+              />
+            );
+          }
+
+          return (
+            <Stage
+              key={`stage-${stageData.stage}-${index}`}
+              stage={stageData.stage}
+              label={stageData.label}
+              current={isCurrent}
+              clickable={false}
+              aria-label={`Step ${stepNumber}: ${stageData.label}${
+                isCurrent ? " (current)" : ""
+              }`}
+            />
+          );
         })}
       </nav>
     </div>
   );
 }
 
-export default SideNav
+export default SideNav;
